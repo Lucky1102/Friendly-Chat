@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">FriendlyChat</string>
+    <string name="title_activity_splash_screen">SplashScreen</string>
+</resources>

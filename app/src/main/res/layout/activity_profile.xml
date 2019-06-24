@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ProfileActivity">
+
+    <EditText
+        android:id="@+id/username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="503dp"
+        android:background="@color/editTextBG"
+        android:fontFamily="sans-serif"
+        android:hint="Enter Your Name"
+        android:inputType="textEmailAddress"
+        android:paddingLeft="20dp"
+        android:paddingBottom="15dp"
+        />
+
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="404dp"
+        android:layout_height="57dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="424dp"
+        android:background="@color/colorPrimary"
+        android:fontFamily="sans-serif-medium"
+        android:text="SUBMIT"
+        android:textColor="@color/white" />
+
+</RelativeLayout>
