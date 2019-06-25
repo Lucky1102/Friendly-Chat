@@ -1,8 +1,7 @@
 package com.rup.registeractivity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -10,10 +9,15 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+
+import dmax.dialog.SpotsDialog;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -25,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -73,9 +78,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 progressBar.setVisibility(View.GONE);
                 if (task.isSuccessful()) {
                     finish();
+
                     Intent intent = new Intent(MainActivity.this, FriendsList.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
+
                 } else {
                     Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                 }

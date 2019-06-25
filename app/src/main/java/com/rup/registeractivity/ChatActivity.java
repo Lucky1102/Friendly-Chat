@@ -83,6 +83,8 @@ public class ChatActivity extends AppCompatActivity {
         String userName = "";
         try {
             userName = getIntent().getStringExtra("user_name");
+            setTitle("Chating with: " + userName);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

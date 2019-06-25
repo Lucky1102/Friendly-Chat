@@ -1,12 +1,19 @@
 package com.rup.registeractivity;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,46 +26,58 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import dmax.dialog.SpotsDialog;
+
 public class FriendsList extends AppCompatActivity {
 
-    private FirebaseAuth mAuth;
-    private TextView textView;
-    private DatabaseReference FriendsRef,PostRef;
-    private  Query query;
-    private RecyclerView postList;
 
+    private DatabaseReference FriendsRef,PostRef;
+    private RecyclerView postList;
+    public AlertDialog pd;
     private String online_user_id;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends_list);
+        setTitle("Users List");
 
-
-        //mAuth = FirebaseAuth.getInstance();
-        //online_user_id=mAuth.getCurrentUser().getUid();
         FriendsRef = FirebaseDatabase.getInstance().getReference().child("Users");
-        // PostRef= FirebaseDatabase.getInstance().getReference().child("posts");
-        textView=(TextView)findViewById(R.id.text1);
+
         postList=(RecyclerView)findViewById(R.id.friendRecycleList);
         postList.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
         postList.setLayoutManager(linearLayoutManager);
+        //Showing  Spots Dialog
+        pd= new SpotsDialog.Builder()
+                .setContext(FriendsList.this).setTheme(R.style.CustomPD).setCancelable(false).build();
+        pd.show();
 
-        textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        DisplayPosts();
 
 
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_item, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.sign_out_menu:
+                //Sign out
                 FirebaseAuth.getInstance().signOut();
                 finish();
                 startActivity(new Intent(FriendsList.this, MainActivity.class));
-                Toast.makeText(FriendsList.this, "Log out successfully!!", Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-        DisplayPosts();
+                Toast.makeText(this, "Log out successfully!", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
 
     }
 
@@ -83,13 +102,15 @@ public class FriendsList extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+
                         final String userName= dataSnapshot.child("name").getValue().toString();
 
                         viewHolder.setName(userName);
 
 
                         final String finalUserName = userName;
-
+                       //Dismiss the Dialog
+                        pd.dismiss();
                         viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
@@ -115,6 +136,7 @@ public class FriendsList extends AppCompatActivity {
             }
         };
         postList.setAdapter(firebaseRecyclerAdapter);
+
 
     }
 
