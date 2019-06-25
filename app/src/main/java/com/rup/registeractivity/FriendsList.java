@@ -41,6 +41,7 @@ public class FriendsList extends AppCompatActivity {
         setContentView(R.layout.activity_friends_list);
         setTitle("Users List");
 
+        
         FriendsRef = FirebaseDatabase.getInstance().getReference().child("Users");
 
         postList=(RecyclerView)findViewById(R.id.friendRecycleList);
